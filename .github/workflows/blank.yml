@@ -35,8 +35,8 @@ jobs:
         Install-Module -Name MSAL.PS -Force -Scope CurrentUser
         
         $token = Get-MsalToken `
-          -ClientId $env:AZURE_CLIENT_ID `
-          -TenantId $env:AZURE_TENANT_ID `
+          -ClientId $clientId `
+          -TenantId $tenantId `
           -ClientCredentialType Federated
         
         $response = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/me" -Headers @{
