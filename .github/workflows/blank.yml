@@ -30,6 +30,7 @@ jobs:
       run: |
         $tenantId = "${{ secrets.AZURE_TENANT_ID }}"
         $clientId = "${{ secrets.AZURE_CLIENT_ID }}"
+        $clientSecret = "${{ secrets.AZURE_SECRET_ID }}"
         $scope = "https://graph.microsoft.com/.default"
 
         # Request a token from Azure AD
@@ -37,6 +38,7 @@ jobs:
           -Uri "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token" `
           -Body @{
               client_id     = $clientId
+              client_secret = $clientSecret
               scope         = $scope
               grant_type    = "client_credentials"
               client_assertion_type = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer"
