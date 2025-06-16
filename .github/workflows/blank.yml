@@ -32,17 +32,18 @@ jobs:
         $clientId = "${{ secrets.AZURE_CLIENT_ID }}"
         $scope = "https://graph.microsoft.com/.default"
 
-        Install-Module -Name MSAL.PS -Force -Scope CurrentUser
-        
-        $token = Get-MsalToken `
-          -ClientId $clientId `
-          -TenantId $tenantId `
-          -ClientCredentialType Federated
-        
-        $response = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/me" -Headers @{
-          Authorization = "Bearer $($token.AccessToken)"
+        # Get an OIDC-based token from GitHub to Azure
+        $response = az account get-access-token `
+          --resource https://graph.microsoft.com/ `
+          --query accessToken -o tsv
+
+        $headers = @{
+          Authorization = "Bearer $response"
         }
 
-        $response.value | ForEach-Object {
-          Write-Output "User: $($_.displayName) <$($_.userPrincipalName)>"
+        # Call Graph
+        $users = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/users" -Headers $headers
+
+        $users.value | ForEach-Object {
+          Write-Host "$($_.displayName) <$($_.userPrincipalName)>"
         }
