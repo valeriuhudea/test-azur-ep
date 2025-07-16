@@ -51,3 +51,4 @@ jobs:
 
         $cas.value | ForEach-Object {
           Write-Host "$_"
+          }
