@@ -42,8 +42,12 @@ jobs:
         }
 
         # Call Graph
-        $users = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/users" -Headers $headers
-
+        #$users = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/users" -Headers $headers
+        $cas = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies" -Headers $headers
+        
         $users.value | ForEach-Object {
           Write-Host "$($_.displayName) <$($_.userPrincipalName)>"
         }
+
+        $cas.value | ForEach-Object {
+          Write-Host "$_"
