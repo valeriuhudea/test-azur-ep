@@ -43,11 +43,13 @@ jobs:
 
         # Call Graph
         $users = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/users" -Headers $headers
-        $cas = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies" -Headers $headers
+        $casresp = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/identity/conditionalAccess/policies" -Headers $headers
+        $namedlresp = Invoke-RestMethod -Uri "https://graph.microsoft.com/v1.0/identity/conditionalAccess/namedLocations" -Headers $headers
         
         $users.value | ForEach-Object {
           Write-Host "$($_.displayName) <$($_.userPrincipalName)>"
         }
-
+        Write-Host "$casresp.value"
+        Write-Host "$namedlresp.value"
         # Show policies
         Write-Host "$cas"
