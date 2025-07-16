@@ -50,6 +50,4 @@ jobs:
         }
 
         # Show policies
-        $cas.value | ForEach-Object {
-          Write-Host "$($_.id)"
-          }
+        Write-Host "$cas"
