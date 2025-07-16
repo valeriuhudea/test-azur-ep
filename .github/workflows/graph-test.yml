@@ -49,6 +49,7 @@ jobs:
           Write-Host "$($_.displayName) <$($_.userPrincipalName)>"
         }
 
+        # Show policies
         $cas.value | ForEach-Object {
           Write-Host "$_"
           }
